@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>All Firebase in Table</title>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+            }
+            
+            th{
+                content: '';
+                width: 200px;
+                height: 100px;
+        
+            }
+            .body_area{
+                width: 100%;
+                height: 1200px;
+                background-color: darkorange;
+            }
+            thead{
+                background-color: chartreuse;
+            }
+            tbody{
+                width: 200px;
+                height: 100px;
+                background-color: rgb(196, 174, 218);
+            }
+            table{
+                background-position: center;
+                transform: translateX(0%);
+            }
+            #img-area{
+                transform: translateX(25%);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="area">
+            <table>
+                <div class="body_area">
+                <thead>
+                    <th style="background-color: rgb(73, 73, 255);">No</th>
+                    <th style="background-color: rgb(255, 196, 0);">Name</th>
+                    <th style="background-color: rgb(255, 0, 255);">Link</th>
+                    <th style="background-color: rgb(0, 255, 21);">URL</th>
+                    <div id="img-area"></div>
+                </thead>
+                
+                    <tbody id="tbody1">
+                        
+                    </tbody>
+                </div>
+            </table>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-messaging.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-functions.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyCqIqmoiKfLbHrJbrA1Le5NcYRRu-uQLII",
+                authDomain: "apple-pie-430c3.firebaseapp.com",
+                projectId: "apple-pie-430c3",
+                storageBucket: "apple-pie-430c3.appspot.com",
+                messagingSenderId: "862949045222",
+                appId: "1:862949045222:web:d7e20a1a69fc3d8a399c27",
+                measurementId: "G-TW6ZBNCDTH"
+                 };
+                firebase.initializeApp(firebaseConfig);
+                firebase.analytics();
+                var name,link,icons,imageF;
+                var storageRef = firebase.storage().ref();
+                function SelectAllData(){
+                    firebase.database().ref('Pictures/').once('value',
+                    function(AllRecords){
+                       AllRecords.forEach(
+                           function(CurrentRecord){
+                             name = CurrentRecord.val().Name;
+                             link = CurrentRecord.val().Link;
+                             icons = CurrentRecord.val().ImageSrc ;
+                             console.log(name,link,icons)
+                            AddItemsToTable(name,link,icons);
+                       });
+                    });
+                }
+                var img_index = 1;
+                var storageRef = firebase.storage().ref();
+                
+                
+                storageRef.child("Images/").listAll().then(function(result){
+                    console.log(result);
+                    result.items.forEach(function(imgRef){
+                        imgRef.getDownloadURL().then(function(url){
+                            var img = $('<img />').attr({
+                                'id': 'poster'+img_index,
+                                'src': url,
+                                'alt': 'image',
+                                'title': 'image',
+                                'width': 100
+                            }).appendTo('#img-area');
+
+                            img_index++;
+                        });
+                    })
+                }).catch(function(error){
+                    console.log(error);
+                });
+
+                window.onload = SelectAllData
+                var stdNo = 0;
+                function AddItemsToTable(name,link,icons){
+                    var tbody = document.getElementById('tbody1');
+                    var trow = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    var td2 = document.createElement('td');
+                    var td3 = document.createElement('td');
+                    var td4 = document.createElement('td');
+                    td1.innerHTML = ++stdNo;
+                    td2.innerHTML = name;
+                    td3.innerHTML = link;
+                    td4.innerHTML = icons;
+                    trow.appendChild(td1);
+                    trow.appendChild(td2);
+                    trow.appendChild(td3);
+                    trow.appendChild(td4);
+
+                    tbody.appendChild(trow);
+                }
+
+        </script>
+        </div>
+    </body>
+</html>

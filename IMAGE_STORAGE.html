@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Save & Load Image from Firebase</title>
+  </head>
+  <body>
+    <style>
+      .setbox{
+        content: '';
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+      }
+      .upper-level{
+        content: '';
+        position: relative;
+        width: 100%;
+        height: 30%;
+        background-color: rgb(255, 255, 255);
+      }
+      .middle-level{
+        
+        height: 0;
+        width: 60%;
+        border-bottom: 90px solid rgb(255, 163, 163);
+        border-left: 90px solid transparent;
+        border-right: 0px solid transparent;
+        float: right;
+
+      }
+      .upper-level .logo{
+        content: '';
+        position: relative;
+        width: 10%;
+        height: 100px;
+       
+        background: url("picture/favicon.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        float:left;
+        margin: 2px 2px auto;
+      }
+      img{
+        height: 300px;
+        width: 350px;
+        border: 2px solid black;
+        background-size: cover;
+        background-color: whitesmoke;
+      }
+      .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        width: 100%;
+        height: 50px;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        transform: translate(0%,0%);
+        
+      }
+
+      .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+        width: 20%;
+        height: 40%;
+        background: snow;
+        float: left;
+        transform: translate(0%,0%);
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+        width: 100%;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      .dropdown-content button {
+        width: 100%;
+        height: 60%;
+        padding: 10px 25px;
+        background: transparent;
+        display: flexbox;
+        border: 1px solid #fff;
+        border-radius: 20px;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .dropdown button:hover {
+        background-color: #ddd;
+        }
+
+      .show {display: block;}
+
+      .setbox input{
+        width: 20%;
+        height: 20px;
+        padding: 10px 25px;
+        background: transparent;
+        display: flexbox;
+        border: 1px solid #fff;
+        border-radius: 20px;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        transform: translateX(-40%);
+
+      }
+      .setbox input::placeholder{
+        color: black;
+      }
+      .lower-level{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100px;
+        background: rgb(255, 255, 255);
+      }  
+      .capsule-labs{
+        width: 20%;
+        height: 100px;
+        background-image: url("picture/Capsulelabs_logo.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        box-shadow: 0 0 2px rgb(126, 126, 126);
+        float: right;
+      }  
+      .lower-level .description{
+        width: 50%;
+        height: 100px;
+        border-top: 100px solid rgb(255, 163, 163);
+        border-right: 100px solid transparent;
+        border-left: 0px solid transparent;
+
+      } 
+    </style>
+    <div class="setbox">
+      <center>
+          <div class="upper-level">
+            <div class="logo"></div>
+            <div class="middle-level">
+              <h1>Firebase Storage Operation</h1>
+            </div><br><br><br><br><br><br>
+          </div><br><br>
+          <div class="dropdown">
+            <button class="dropbtn">Home</button><br>
+            <button onclick="myFunction()" class="dropbtn">Function</button>
+                <div id="myDropdown" class="dropdown-content">
+                  <button id="select">Select Image</button><br>
+                  <button id="upload">Upload Image</button><br>
+                  <button id="retrieve">Retrieve Image</button><br>
+                  <button id="delet">Delete Image</button><br>
+                  <button id="update">Update Image</button><br>
+                  <form action="GetAllImage.html">
+                    <button id="retrieveAll">All ICONS</button><br>  
+                  </form>
+                </div>
+          </div>
+          <input id="namebox" type="text" placeholder="Uploaded Image Name"> <br><br>
+          <input id="existing" type="text" placeholder="Existing Image Operation">
+          <input id="imageUrl" type="text" placeholder="Image URL">
+          <br><br>
+          <img id="myimg" > <br><br>
+          <label id="UpProgress"></label> <br><br>
+          
+        </center>
+        <div class="lower-level">
+          <div class="capsule-labs"></div>
+          <div class="description"></div>
+        </div>
+    </div>
+    
+    <script>
+      function myFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-functions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+    <script src="./js/collect.js"></script>
+  </body>
+</html>

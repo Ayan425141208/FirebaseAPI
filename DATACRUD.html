@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Google Cloud Firestore Using JavaScript</title>
+    </head>
+
+    <body>
+        Name    <input type="NameTbox" type="text" oninput="Update(this.value,'name')"> <br><br>
+        RollNo  <input type="RollTbox" type="text" oninput="Update(this.value,'roll')"> <br><br>
+        Section <input type="SecTbox"  type="text" oninput="Update(this.value, 'sec')"> <br><br>
+        Gender  <input type="GenTbox"  type="text" oninput="Update(this.value, 'gen')"> <br><br>
+        <hr>
+
+        <button id="insertBtn">INSERT</button>
+        <button id="selectBtn">SELECT</button>
+        <button id="updateBtn">UPDATE</button>
+        <button id="deleteBtn">DELETE</button>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-functions.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+    <script src="./js/dataedit.js"></script>
+    </body>
+</html>

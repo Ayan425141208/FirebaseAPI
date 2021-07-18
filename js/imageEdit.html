@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Node js Resize Image Before Upload using Multer Example - Tutsmake
+.com</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://www.marvinj.org/releases/marvinj-0.8.js"></script>
+    <form id="form" action='/backoffice/imageUpload.php' style='margin:auto;' method='post' enctype='multipart/form-data'>
+            <input type='file' id='fileUpload' class='upload' name='userfile'/>
+    </form><br/>
+    <button type="button" onclick="resizeAndSendToServer()">Resize and Send to Server</button><br/><br/>
+    <div id="divServerResponse">
+    </div>
+    <script>
+      var image = new MarvinImage();
+
+            /***********************************************
+             * FILE CHOOSER AND UPLOAD
+             **********************************************/
+            $('#fileUpload').change(function (event) {
+              form = new FormData();
+              form.append('name', event.target.files[0].name);
+              
+              reader = new FileReader();
+              reader.readAsDataURL(event.target.files[0]);
+              
+              reader.onload = function(){
+                image.load(reader.result, imageLoaded);
+              };
+              
+            });
+
+            function resizeAndSendToServer(){
+              $("#divServerResponse").html("uploading...");
+              $.ajax({
+                method: 'POST',
+                url: 'https://www.marvinj.org/backoffice/imageUpload.php',
+                data: form,
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData: false,
+                
+                
+                success: function (resp) {
+                  $("#divServerResponse").html("SERVER RESPONSE (NEW IMAGE):<br/><img src='"+resp+"' style='max-width:400px'></img>");
+                },
+                error: function (data) {
+                  console.log("error:"+error);
+                  console.log(data);
+                },
+                
+              });
+            };
+
+            /***********************************************
+             * IMAGE MANIPULATION
+             **********************************************/
+            function imageLoaded(){
+              Marvin.scale(image.clone(), image, 64, 64);
+              form.append("blob", image.toBlob());
+            }
+    </script>
+  </body>
+</html>
